@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>МБОУ «СОШ № 60» — Официальный путеводитель (Новокузнецк)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Class Picker Modal -->
+  <div id="class-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="class-modal-title">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h2 id="class-modal-title" class="modal-title">В каком классе вы учитесь?</h2>
+          <p class="modal-sub">Покажем ваше расписание на сегодня, кабинет и точное время до звонка или перемены.</p>
+        </div>
+        <button id="class-modal-close" type="button" class="modal-close-btn" aria-label="Закрыть">×</button>
+      </div>
+      <div class="grade-carousel-wrap">
+        <button id="grade-prev-btn" type="button" class="carousel-arrow" aria-label="Предыдущая параллель">‹</button>
+        <div id="grade-track" class="grade-track" role="listbox" aria-label="Выбор параллели"></div>
+        <button id="grade-next-btn" type="button" class="carousel-arrow" aria-label="Следующая параллель">›</button>
+      </div>
+      <div class="letter-picker-wrap">
+        <div class="inspector-label">Выберите букву класса</div>
+        <div id="letter-btns" class="letter-btns"></div>
+      </div>
+      <div class="modal-foot">
+        <button id="class-modal-skip" type="button" class="btn-secondary btn-sm">Продолжить без выбора</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Evacuation Plan Lightbox Modal -->
+  <div id="plan-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="plan-modal-title">
+    <div class="modal-card modal-card--wide">
+      <div class="modal-head">
+        <div>
+          <h2 id="plan-modal-title" class="modal-title">План эвакуации 1-го этажа МБОУ «СОШ № 60»</h2>
+          <p class="modal-sub">г. Новокузнецк, ул. Дузенко, 14А</p>
+        </div>
+        <button id="plan-modal-close" type="button" class="modal-close-btn" aria-label="Закрыть">×</button>
+      </div>
+      <div class="plan-modal-body">
+        <img src="evac-plan-1.jpg" alt="План эвакуации 1 этажа МБОУ СОШ № 60" class="plan-full-img" />
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Holidays & Quarters Modal -->
+  <div id="holidays-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="holidays-modal-title">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h2 id="holidays-modal-title" class="modal-title">Учебные четверти и каникулы</h2>
+          <p class="modal-sub">2026–2027 учебный год</p>
+        </div>
+        <button id="holidays-modal-close" type="button" class="modal-close-btn" aria-label="Закрыть">×</button>
+      </div>
+      <div id="holidays-list" class="quarters-list"></div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <button type="button" class="brand brand-btn" data-tab-target="home" aria-label="МБОУ СОШ № 60">
+        <img src="logo.jpg" alt="Эмблема МБОУ СОШ № 60" class="brand-logo" />
+        <span class="brand-text">
+          <span class="brand-title">МБОУ «СОШ № 60»</span>
+          <span class="brand-sub">Новокузнецк · ул. Дузенко, 14А</span>
+        </span>
+      </button>
+
+      <div class="header-actions">
+        <button id="holiday-badge-btn" type="button" class="btn-icon-text btn-holiday-pill" title="Учебные четверти и каникулы">
+          <span id="holiday-badge-text">До каникул: -- дн.</span>
+        </button>
+        <button id="open-class-modal-btn" type="button" class="btn-icon-text btn-class-pill">
+          <span id="header-class-label">Выбрать класс</span>
+        </button>
+        <button id="theme-toggle" type="button" class="btn-icon-text" aria-label="Переключить тему">
+          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <span id="theme-label" class="desktop-label">Светлая</span>
+        </button>
+        <button id="mobile-menu-btn" type="button" class="btn-icon-text btn-burger" aria-label="Открыть меню" aria-expanded="false">
+          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="mobile-drawer hidden">
+      <div class="container mobile-drawer-inner">
+        <button type="button" class="mobile-link is-active" data-tab-target="home">Главная</button>
+        <button type="button" class="mobile-link" data-tab-target="schedule">Моё расписание</button>
+        <button type="button" class="mobile-link" data-tab-target="teachers">Педагоги и кабинеты</button>
+        <button type="button" class="mobile-link" data-tab-target="map">Карта этажей</button>
+        <button type="button" class="mobile-link" data-tab-target="bells">Расписание звонков</button>
+        <button type="button" class="mobile-link" data-tab-target="food">Питание в столовой</button>
+        <button type="button" class="mobile-link" data-tab-target="grades">Калькулятор оценок</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-shell">
+    <!-- TAB 1: HOME -->
+    <section id="tab-home" class="tab-panel is-active">
+      <div class="hero-section">
+        <div class="container hero-grid">
+          <div class="hero-content">
+            <div class="eyebrow">
+              <span class="eyebrow-dot"></span>
+              <span>Орджоникидзевский район · 654025, ул. Дузенко, 14А</span>
+            </div>
+
+            <h1 class="hero-title">
+              Путеводитель по <span class="hero-title-muted">школе № 60</span>
+            </h1>
+
+            <p class="hero-lead">
+              Муниципальное бюджетное общеобразовательное учреждение «Средняя общеобразовательная школа № 60». Выберите нужный раздел в шапке или воспользуйтесь быстрым поиском.
+            </p>
+
+            <div class="search-wrapper" data-search-scope="hero">
+              <div class="search-box">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                  <circle cx="11" cy="11" r="7"></circle>
+                  <path d="M20 20l-3.5-3.5"></path>
+                </svg>
+                <input
+                  id="hero-search-input"
+                  type="text"
+                  autocomplete="off"
+                  placeholder="Фамилия, предмет (матем, физра) или кабинет (307)..."
+                  aria-label="Поиск по школе"
+                />
+                <button id="hero-clear-btn" type="button" class="search-clear hidden" aria-label="Очистить поиск">×</button>
+                <button id="hero-search-btn" type="button" class="btn-primary">Найти</button>
+              </div>
+              <div id="hero-suggest" class="suggest-dropdown hidden" role="listbox" aria-label="Предполагаемый поиск"></div>
+            </div>
+
+            <div class="bell-widget">
+              <div class="bell-widget-top">
+                <span id="bell-widget-scope" class="bell-widget-label">Статус звонков · Новокузнецк</span>
+                <span id="live-clock" class="mono-badge">--:--:--</span>
+              </div>
+              <div class="bell-widget-main">
+                <div>
+                  <div id="live-lesson-title" class="bell-status-title">Загрузка расписания...</div>
+                  <div id="live-lesson-sub" class="bell-status-sub">—</div>
+                  <div id="live-lesson-next" class="bell-status-next"></div>
+                </div>
+                <div class="bell-countdown-box">
+                  <span id="live-countdown-label" class="bell-countdown-label">Осталось</span>
+                  <span id="live-countdown" class="bell-countdown-val">--:--</span>
+                </div>
+              </div>
+              <div class="bell-sim-bar">
+                <span class="sim-label">Проверка времени:</span>
+                <input id="sim-time-home" type="time" class="sim-input" aria-label="Проверить время" />
+                <button id="sim-apply-home" type="button" class="btn-primary btn-sm">Проверить</button>
+                <button id="sim-reset-home" type="button" class="btn-secondary btn-sm">Сейчас</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-media">
+            <div class="passport-card">
+              <div class="passport-head">
+                <span class="mono-tag mono-tag--inverted">Сведения о школе</span>
+                <span class="mono-tag">Приёмная · 2 этаж</span>
+              </div>
+
+              <div class="passport-rows">
+                <div class="passport-row">
+                  <span class="passport-key">Директор</span>
+                  <span class="passport-val">Янькин Дмитрий Валерьевич</span>
+                </div>
+                <div class="passport-row">
+                  <span class="passport-key">Адрес</span>
+                  <span class="passport-val">654025, г. Новокузнецк, р-н Орджоникидзевский, ул. Дузенко, д. 14А</span>
+                </div>
+                <div class="passport-row">
+                  <span class="passport-key">Телефон</span>
+                  <a href="tel:+73843310759" class="passport-val passport-link">+7 (3843) 31-07-59</a>
+                </div>
+                <div class="passport-row">
+                  <span class="passport-key">Эл. почта</span>
+                  <a href="mailto:shkola60-kuz@yandex.ru" class="passport-val passport-link">shkola60-kuz@yandex.ru</a>
+                </div>
+              </div>
+
+              <div class="spec-strip">
+                <div class="spec-cell">
+                  <span class="spec-val">04</span>
+                  <span class="spec-key">Этажа в корпусе</span>
+                </div>
+                <div class="spec-cell">
+                  <span class="spec-val">10</span>
+                  <span class="spec-key">Слотов звонков</span>
+                </div>
+                <div class="spec-cell">
+                  <span class="spec-val">UTC+7</span>
+                  <span class="spec-key">Часовой пояс</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: MY SCHEDULE -->
+    <section id="tab-schedule" class="tab-panel hidden">
+      <div class="section-block">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">Моё расписание уроков</h2>
+              <p id="my-schedule-meta" class="section-desc">
+                Выберите свой класс, чтобы видеть уроки на сегодня, кабинеты и обратный отсчёт до звонка.
+              </p>
+            </div>
+            <button id="change-class-btn" type="button" class="btn-primary btn-sm">Сменить класс</button>
+          </div>
+
+          <div id="schedule-day-tabs" class="menu-tabs" role="tablist" aria-label="Дни недели расписания">
+            <button type="button" data-day="mon" class="sched-day-tab active">Понедельник</button>
+            <button type="button" data-day="tue" class="sched-day-tab">Вторник</button>
+            <button type="button" data-day="wed" class="sched-day-tab">Среда</button>
+            <button type="button" data-day="thu" class="sched-day-tab">Четверг</button>
+            <button type="button" data-day="fri" class="sched-day-tab">Пятница</button>
+          </div>
+
+          <div id="my-schedule-body" class="table-wrap"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: TEACHERS -->
+    <section id="tab-teachers" class="tab-panel hidden">
+      <div class="section-block">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">Педагоги и службы школы</h2>
+              <p class="section-desc">
+                Учителя-предметники, начальные классы, администрация, библиотека, столовая и психологическая служба.
+              </p>
+            </div>
+            <div id="active-filter-pill" class="filter-status hidden">
+              <span id="active-filter-text"></span>
+            </div>
+          </div>
+
+          <div class="controls-panel">
+            <div class="controls-row">
+              <div class="search-wrapper search-wrapper--inline" data-search-scope="dir">
+                <div class="search-box search-box--compact">
+                  <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="M20 20l-3.5-3.5"></path>
+                  </svg>
+                  <input
+                    id="teacher-search"
+                    type="text"
+                    autocomplete="off"
+                    placeholder="Введите ФИО, предмет, синоним или номер кабинета..."
+                    aria-label="Фильтр по педагогам и предметам"
+                  />
+                  <button id="dir-clear-btn" type="button" class="search-clear hidden" aria-label="Очистить">×</button>
+                </div>
+                <div id="dir-suggest" class="suggest-dropdown hidden" role="listbox" aria-label="Подсказки поиска"></div>
+              </div>
+
+              <div class="select-wrap">
+                <label for="floor-filter" class="sr-only">Фильтр по этажу</label>
+                <select id="floor-filter" class="select-control">
+                  <option value="all">Все этажи</option>
+                  <option value="1">1 этаж и общие зоны</option>
+                  <option value="2">2 этаж (200-е и приёмная)</option>
+                  <option value="3">3 этаж (300-е)</option>
+                  <option value="4">4 этаж (400-е)</option>
+                  <option value="none">Кабинет уточняется</option>
+                </select>
+              </div>
+
+              <button id="reset-filters-btn" type="button" class="btn-secondary">Сбросить</button>
+            </div>
+
+            <div id="category-chips" class="chips-row" role="tablist" aria-label="Категории">
+              <button type="button" data-cat="all" class="cat-chip active">Все</button>
+              <button type="button" data-cat="admin" class="cat-chip">Администрация и службы</button>
+              <button type="button" data-cat="primary" class="cat-chip">Начальные классы</button>
+              <button type="button" data-cat="math_it" class="cat-chip">Математика, физика, ИТ</button>
+              <button type="button" data-cat="rus_lit" class="cat-chip">Русский и литература</button>
+              <button type="button" data-cat="hum" class="cat-chip">История, география, языки</button>
+              <button type="button" data-cat="bio_chem" class="cat-chip">Биология, химия, ОБЗиР</button>
+              <button type="button" data-cat="sport_art" class="cat-chip">Спорт, музыка, технология</button>
+            </div>
+          </div>
+
+          <div id="teachers-grid" class="teachers-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: SCHOOL MAP -->
+    <section id="tab-map" class="tab-panel hidden">
+      <div class="section-block">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">Интерактивная карта этажей</h2>
+              <p class="section-desc">
+                Выберите этаж и нажмите на любой кабинет, чтобы увидеть его назначение и закреплённых педагогов.
+              </p>
+            </div>
+          </div>
+
+          <div class="map-layout">
+            <div class="map-blueprint-col">
+              <div class="floor-tabs" role="tablist" aria-label="Этажи школы">
+                <button type="button" data-floor="1" class="floor-tab active">1 этаж</button>
+                <button type="button" data-floor="2" class="floor-tab">2 этаж</button>
+                <button type="button" data-floor="3" class="floor-tab">3 этаж</button>
+                <button type="button" data-floor="4" class="floor-tab">4 этаж</button>
+              </div>
+
+              <div class="blueprint-box">
+                <div class="blueprint-header">
+                  <div id="floor-heading" class="blueprint-title">1 этаж — Библиотека, столовая и спортзал</div>
+                  <span class="mono-tag">План-схема</span>
+                </div>
+
+                <div class="corridor-label">
+                  <span>Главный коридор корпуса</span>
+                  <span>Вход / Лестница</span>
+                </div>
+
+                <div id="floor-rooms-grid" class="rooms-grid"></div>
+              </div>
+
+              <div id="evac-plan-card" class="evac-card">
+                <div class="evac-head">
+                  <div>
+                    <div class="evac-title">План эвакуации 1-го этажа</div>
+                    <div class="evac-sub">Официальная схема помещений и выходов (ул. Дузенко, 14А)</div>
+                  </div>
+                  <button id="open-plan-modal-btn" type="button" class="btn-secondary btn-sm">Увеличить</button>
+                </div>
+                <div class="evac-thumb-wrap">
+                  <img src="evac-plan-1.jpg" alt="План эвакуации 1 этажа МБОУ СОШ № 60" class="evac-thumb" />
+                </div>
+              </div>
+            </div>
+
+            <aside class="map-inspector-col">
+              <div id="room-inspector" class="inspector-card">
+                <div class="inspector-top">
+                  <span id="room-badge" class="mono-tag mono-tag--inverted">1 этаж</span>
+                  <h3 id="room-title" class="inspector-title">Выберите кабинет</h3>
+                  <p id="room-subtitle" class="inspector-sub">Нажмите на блок на схеме слева или на номер кабинета в карточке педагога.</p>
+                </div>
+
+                <div class="inspector-section">
+                  <div class="inspector-label">Закреплённые сотрудники</div>
+                  <div id="room-teachers-list" class="inspector-staff-list"></div>
+                </div>
+            </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: BELLS -->
+    <section id="tab-bells" class="tab-panel hidden">
+      <div class="section-block">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">Расписание звонков</h2>
+              <p class="section-desc">
+                С 1-го по 10-й урок. Текущий урок и время до звонка определяются автоматически.
+              </p>
+            </div>
+
+            <div class="sim-controls">
+              <span class="sim-label">Проверка времени:</span>
+              <input id="sim-time-input" type="time" class="sim-input" aria-label="Тестовое время" />
+              <button id="sim-apply-btn" type="button" class="btn-primary btn-sm">Проверить</button>
+              <button id="sim-reset-btn" type="button" class="btn-secondary btn-sm">Сейчас</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="bells-table">
+              <thead>
+                <tr>
+                  <th>Урок</th>
+                  <th>Время</th>
+                  <th>Длительность</th>
+                  <th>Перемена после</th>
+                  <th>Статус</th>
+                </tr>
+              </thead>
+              <tbody id="bells-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: FOOD -->
+    <section id="tab-food" class="tab-panel hidden">
+      <div class="section-block">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">Питание в столовой</h2>
+              <p class="section-desc">
+                1 этаж · Заведующая столовой: Грицун Анастасия Ивановна. Ориентировочное меню по дням недели.
+              </p>
+            </div>
+            <div class="food-actions">
+              <button type="button" data-goto-room="Столовая" class="btn-secondary btn-sm goto-room-btn">Столовая на карте</button>
+              <a href="https://shkola60-kuz.kemobl.ru/food/" target="_blank" rel="noopener noreferrer" class="btn-primary btn-sm">Ежедневное меню (сайт школы)</a>
+            </div>
+          </div>
+
+          <div id="menu-days-tabs" class="menu-tabs" role="tablist" aria-label="Дни недели">
+            <button type="button" data-day="mon" class="menu-tab active">Понедельник</button>
+            <button type="button" data-day="tue" class="menu-tab">Вторник</button>
+            <button type="button" data-day="wed" class="menu-tab">Среда</button>
+            <button type="button" data-day="thu" class="menu-tab">Четверг</button>
+            <button type="button" data-day="fri" class="menu-tab">Пятница</button>
+          </div>
+
+          <div id="menu-content" class="menu-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 7: GRADES CALCULATOR -->
+    <section id="tab-grades" class="tab-panel hidden">
+      <div class="section-block">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2 class="section-title">Калькулятор среднего балла</h2>
+              <p class="section-desc">
+                Накликайте текущие оценки, чтобы увидеть средний балл, прогноз за четверть и сколько пятёрок нужно до нужной оценки.
+              </p>
+            </div>
+            <div class="select-wrap">
+              <label for="grade-subject-select" class="sr-only">Предмет</label>
+              <select id="grade-subject-select" class="select-control"></select>
+            </div>
+          </div>
+
+          <div class="grades-layout">
+            <div class="grades-input-card">
+              <div class="inspector-label">Добавить оценку</div>
+              <div id="grade-add-btns" class="grade-add-row">
+                <button type="button" data-add-grade="5" class="grade-add-btn">5</button>
+                <button type="button" data-add-grade="4" class="grade-add-btn">4</button>
+                <button type="button" data-add-grade="3" class="grade-add-btn">3</button>
+                <button type="button" data-add-grade="2" class="grade-add-btn">2</button>
+              </div>
+
+              <div class="grades-toolbar">
+                <span class="inspector-label" style="margin:0">Ваши оценки (нажмите на оценку, чтобы удалить)</span>
+                <div class="grades-toolbar-btns">
+                  <button id="grade-undo-btn" type="button" class="btn-secondary btn-sm">Отменить</button>
+                  <button id="grade-clear-btn" type="button" class="btn-secondary btn-sm">Очистить</button>
+                </div>
+              </div>
+
+              <div id="grades-pills" class="grades-pills"></div>
+            </div>
+
+            <div class="grades-summary-card">
+              <div class="grades-kpi-grid">
+                <div class="grades-kpi">
+                  <span class="inspector-label">Средний балл</span>
+                  <span id="grade-avg-val" class="grades-kpi-val">—</span>
+                </div>
+                <div class="grades-kpi">
+                  <span class="inspector-label">За четверть</span>
+                  <span id="grade-quarter-val" class="grades-kpi-val">—</span>
+                </div>
+                <div class="grades-kpi">
+                  <span class="inspector-label">Всего оценок</span>
+                  <span id="grade-count-val" class="grades-kpi-val">0</span>
+                </div>
+              </div>
+
+              <div class="grades-advice-box">
+                <div class="inspector-label">Расчёт цели</div>
+                <div id="grade-advice-list" class="grades-advice-list"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <div class="footer-title">МБОУ «Средняя общеобразовательная школа № 60»</div>
+        <div class="footer-meta">654025, г. Новокузнецк, ул. Дузенко, д. 14А · +7 (3843) 31-07-59 · shkola60-kuz@yandex.ru</div>
+      </div>
+      <div class="footer-links">
+        <a href="https://shkola60-kuz.kemobl.ru/food/" target="_blank" rel="noopener noreferrer" class="footer-link">Питание</a>
+        <a href="https://shkola60-kuz.kemobl.ru/" target="_blank" rel="noopener noreferrer" class="footer-link">Официальный сайт</a>
+        <a href="https://vk.ru/shkola60_nvkz" target="_blank" rel="noopener noreferrer" class="footer-link">ВКонтакте</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="data.js" defer></script>
+  <script src="schedule.js" defer></script>
+  <script src="search.js" defer></script>
+  <script src="map.js" defer></script>
+  <script src="bells.js" defer></script>
+  <script src="grades.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
