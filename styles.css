@@ -2286,3 +2286,77 @@ button, a, input, select {
     display: none;
   }
 }
+
+/* Zero Horizontal Scroll Mobile Cards for Tables (< 640px) */
+@media (max-width: 640px) {
+  .table-wrap {
+    overflow-x: visible;
+  }
+  .bells-table thead {
+    display: none;
+  }
+  .bells-table,
+  .bells-table tbody {
+    display: block;
+    width: 100%;
+  }
+  .bells-table tr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px 12px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .bells-table tr:last-child {
+    border-bottom: none;
+  }
+  .bells-table td {
+    display: block;
+    padding: 0;
+    border: none;
+    font-size: 13.5px;
+  }
+  /* Bells tab table */
+  #tab-bells .bells-table td:nth-child(2) {
+    white-space: nowrap;
+    color: var(--ink-muted);
+  }
+  #tab-bells .bells-table td:nth-child(3),
+  #tab-bells .bells-table td:nth-child(4) {
+    font-size: 12.5px;
+    color: var(--ink-muted);
+  }
+  #tab-bells .bells-table td:nth-child(3)::before {
+    content: "Урок: ";
+    color: var(--ink-subtle);
+  }
+  #tab-bells .bells-table td:nth-child(4)::before {
+    content: "Перемена: ";
+    color: var(--ink-subtle);
+  }
+  #tab-bells .bells-table td:nth-child(5) {
+    margin-left: auto;
+  }
+  /* My Schedule tab table */
+  #my-schedule-body .bells-table td:nth-child(1)::after {
+    content: " урок";
+    font-weight: 600;
+    color: var(--ink-muted);
+  }
+  #my-schedule-body .bells-table td:nth-child(2) {
+    white-space: nowrap;
+    color: var(--ink-muted);
+    margin-left: auto;
+  }
+  #my-schedule-body .bells-table td:nth-child(3) {
+    flex: 1 0 65%;
+    font-size: 15px;
+    margin-top: 2px;
+  }
+  #my-schedule-body .bells-table td:nth-child(4) {
+    margin-left: auto;
+    margin-top: 2px;
+  }
+}
