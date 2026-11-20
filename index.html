@@ -90,25 +90,20 @@
           </svg>
           <span id="theme-label" class="desktop-label">Светлая</span>
         </button>
-        <button id="mobile-menu-btn" type="button" class="btn-icon-text btn-burger" aria-label="Открыть меню" aria-expanded="false">
-          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
-            <path d="M4 7h16M4 12h16M4 17h16"></path>
-          </svg>
-        </button>
       </div>
     </div>
 
-    <div id="mobile-menu" class="mobile-drawer hidden">
-      <div class="container mobile-drawer-inner">
-        <button type="button" class="mobile-link is-active" data-tab-target="home">Главная</button>
-        <button type="button" class="mobile-link" data-tab-target="schedule">Моё расписание</button>
-        <button type="button" class="mobile-link" data-tab-target="teachers">Педагоги и кабинеты</button>
-        <button type="button" class="mobile-link" data-tab-target="map">Карта этажей</button>
-        <button type="button" class="mobile-link" data-tab-target="bells">Расписание звонков</button>
-        <button type="button" class="mobile-link" data-tab-target="food">Питание в столовой</button>
-        <button type="button" class="mobile-link" data-tab-target="grades">Калькулятор оценок</button>
+    <nav class="subnav-bar" aria-label="Разделы сайта">
+      <div class="container subnav-inner">
+        <button type="button" class="subnav-btn is-active" data-tab-target="home">Главная</button>
+        <button type="button" class="subnav-btn" data-tab-target="schedule">Расписание</button>
+        <button type="button" class="subnav-btn" data-tab-target="teachers">Педагоги</button>
+        <button type="button" class="subnav-btn" data-tab-target="map">Карта этажей</button>
+        <button type="button" class="subnav-btn" data-tab-target="bells">Звонки</button>
+        <button type="button" class="subnav-btn" data-tab-target="food">Питание</button>
+        <button type="button" class="subnav-btn" data-tab-target="grades">Оценки</button>
       </div>
-    </div>
+    </nav>
   </header>
 
   <main class="main-shell">
@@ -164,6 +159,9 @@
                   <span id="live-countdown-label" class="bell-countdown-label">Осталось</span>
                   <span id="live-countdown" class="bell-countdown-val">--:--</span>
                 </div>
+              </div>
+              <div class="bell-quick-link-row">
+                <button type="button" class="btn-secondary btn-sm" data-tab-target="schedule">Открыть расписание класса →</button>
               </div>
               <div class="bell-sim-bar">
                 <span class="sim-label">Проверка времени:</span>
