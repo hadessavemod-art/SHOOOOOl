@@ -27,6 +27,8 @@ html[data-theme="dark"] {
   --inv-bg: #f5f5f3;
   --inv-ink: #0b0b0d;
   --mark-bg: rgba(255, 255, 255, 0.18);
+  --header-bg: rgba(11, 11, 13, 0.94);
+  --row-current-bg: rgba(245, 245, 243, 0.08);
   --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.55);
 }
 
@@ -44,6 +46,8 @@ html[data-theme="light"] {
   --inv-bg: #111113;
   --inv-ink: #ffffff;
   --mark-bg: rgba(17, 17, 19, 0.12);
+  --header-bg: rgba(245, 245, 243, 0.94);
+  --row-current-bg: rgba(17, 17, 19, 0.07);
   --shadow-lg: 0 20px 48px rgba(17, 17, 19, 0.12);
 }
 
@@ -111,7 +115,7 @@ a {
   position: sticky;
   top: 0;
   z-index: 50;
-  background-color: color-mix(in srgb, var(--bg) 88%, transparent);
+  background-color: var(--header-bg);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
@@ -1400,7 +1404,7 @@ a {
 }
 
 .bells-table tr.is-current {
-  background: color-mix(in srgb, var(--inv-bg) 8%, transparent);
+  background: var(--row-current-bg);
   font-weight: 700;
 }
 
@@ -2177,6 +2181,7 @@ a {
    Universal Multi-Device Polish (iOS/Android Phones, iPad, MacBook, 4K PC)
    ========================================================================== */
 html, body {
+  overflow-x: hidden;
   overflow-x: clip;
   -webkit-text-size-adjust: 100%;
 }
@@ -2187,6 +2192,7 @@ button, a, input, select {
 }
 
 .main-shell {
+  min-height: calc(100vh - 180px);
   min-height: calc(100dvh - 180px);
 }
 
