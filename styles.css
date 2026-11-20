@@ -2172,3 +2172,111 @@ a {
   font-size: 14px;
   font-weight: 600;
 }
+
+/* ==========================================================================
+   Universal Multi-Device Polish (iOS/Android Phones, iPad, MacBook, 4K PC)
+   ========================================================================== */
+html, body {
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+}
+
+button, a, input, select {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.main-shell {
+  min-height: calc(100dvh - 180px);
+}
+
+/* Tablet & Small Laptop (iPad / MacBook Air 13") */
+@media (max-width: 1180px) {
+  .container {
+    padding: 0 20px;
+  }
+}
+
+/* Mobile Phones (iPhone / Android 320px - 640px) */
+@media (max-width: 640px) {
+  .container {
+    padding: 0 14px;
+  }
+  .header-inner {
+    height: 60px;
+    gap: 8px;
+  }
+  .brand {
+    gap: 8px;
+  }
+  .brand-logo {
+    width: 34px;
+    height: 34px;
+  }
+  .brand-title {
+    font-size: 13.5px;
+  }
+  .header-actions {
+    gap: 5px;
+  }
+  .btn-icon-text {
+    min-height: 34px;
+    padding: 5px 8px;
+    font-size: 11.5px;
+  }
+  .btn-holiday-pill {
+    display: none;
+  }
+  .mobile-drawer {
+    top: 60px;
+  }
+  .hero-section {
+    padding: 28px 0 40px;
+  }
+  .hero-title {
+    font-size: clamp(26px, 8vw, 34px);
+    margin-bottom: 12px;
+  }
+  .hero-lead {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .section-block {
+    padding: 36px 0;
+  }
+  .modal-card {
+    padding: 16px;
+    gap: 14px;
+  }
+  .modal-title {
+    font-size: 17px;
+  }
+  .letter-btns {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .bell-sim-bar,
+  .sim-controls {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    width: 100%;
+    gap: 6px;
+  }
+  .bell-sim-bar .sim-label,
+  .sim-controls .sim-label {
+    grid-column: 1 / -1;
+  }
+  .spec-strip {
+    grid-template-columns: 1fr;
+  }
+  .spec-cell + .spec-cell {
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+}
+
+/* Ultra-narrow phones (320px - 374px) */
+@media (max-width: 374px) {
+  .brand-text {
+    display: none;
+  }
+}
