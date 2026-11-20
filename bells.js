@@ -11,41 +11,17 @@ window.SchoolBells = (function () {
 
   function getNovokuznetskNow() {
     const now = new Date();
-    try {
-      const fmt = new Intl.DateTimeFormat("ru-RU", {
-        timeZone: "Asia/Novokuznetsk",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        weekday: "short",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false
-      });
-      const parts = fmt.formatToParts(now);
-      const map = {};
-      parts.forEach(p => { map[p.type] = p.value; });
-      const wdMap = { "пн": "mon", "вт": "tue", "ср": "wed", "чт": "thu", "пт": "fri", "сб": "sat", "вс": "sun" };
-      return {
-        dateIso: `${map.year}-${map.month}-${map.day}`,
-        dayKey: wdMap[(map.weekday || "").toLowerCase()] || "mon",
-        h: Number(map.hour),
-        m: Number(map.minute),
-        s: Number(map.second)
-      };
-    } catch (e) {
-      const d = now.getDay();
-      const dk = { 1: "mon", 2: "tue", 3: "wed", 4: "thu", 5: "fri", 6: "sat", 0: "sun" }[d] || "mon";
-      const pad = n => String(n).padStart(2, "0");
-      return {
-        dateIso: `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`,
-        dayKey: dk,
-        h: now.getHours(),
-        m: now.getMinutes(),
-        s: now.getSeconds()
-      };
-    }
+    const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+    const nvk = new Date(utcMs + 7 * 3600000);
+    const pad = n => String(n).padStart(2, "0");
+    const dk = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"][nvk.getDay()] || "mon";
+    return {
+      dateIso: `${nvk.getFullYear()}-${pad(nvk.getMonth() + 1)}-${pad(nvk.getDate())}`,
+      dayKey: dk,
+      h: nvk.getHours(),
+      m: nvk.getMinutes(),
+      s: nvk.getSeconds()
+    };
   }
 
   function parseUtcDate(iso) {
