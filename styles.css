@@ -2360,3 +2360,63 @@ button, a, input, select {
     margin-top: 2px;
   }
 }
+
+/* Always-Visible Tab Bar (Desktop + Mobile, Zero Hidden Burger Menu) */
+.subnav-bar {
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.subnav-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.subnav-btn {
+  padding: 7px 13px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink-muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition);
+}
+
+.subnav-btn:hover {
+  color: var(--ink);
+  border-color: var(--border-strong);
+}
+
+.subnav-btn.is-active {
+  background: var(--inv-bg);
+  color: var(--inv-ink);
+  border-color: var(--inv-bg);
+}
+
+.bell-quick-link-row {
+  margin-top: 12px;
+}
+
+@media (max-width: 640px) {
+  .subnav-inner {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+  .subnav-btn {
+    padding: 7px 4px;
+    font-size: 11.5px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
