@@ -35,17 +35,10 @@
     });
 
     document.querySelectorAll("[data-tab-target]").forEach(btn => {
-      if (btn.classList.contains("nav-link") || btn.classList.contains("mobile-link")) {
+      if (btn.classList.contains("nav-link") || btn.classList.contains("mobile-link") || btn.classList.contains("subnav-btn")) {
         btn.classList.toggle("is-active", btn.dataset.tabTarget === target);
       }
     });
-
-    const drawer = document.getElementById("mobile-menu");
-    const menuBtn = document.getElementById("mobile-menu-btn");
-    if (drawer && !drawer.classList.contains("hidden")) {
-      drawer.classList.add("hidden");
-      if (menuBtn) menuBtn.setAttribute("aria-expanded", "false");
-    }
 
     if (!skipScroll) {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -89,18 +82,6 @@
         applyTheme(cur === "dark" ? "light" : "dark");
       });
     }
-  }
-
-  // Mobile Menu
-  function initMobileMenu() {
-    const btn = document.getElementById("mobile-menu-btn");
-    const drawer = document.getElementById("mobile-menu");
-    if (!btn || !drawer) return;
-
-    btn.addEventListener("click", () => {
-      const isHidden = drawer.classList.toggle("hidden");
-      btn.setAttribute("aria-expanded", String(!isHidden));
-    });
   }
 
   // Holidays Modal
@@ -603,7 +584,6 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     initTheme();
-    initMobileMenu();
     initTabs();
     initHolidaysModal();
     window.SchoolMap.init();
